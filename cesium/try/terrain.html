@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>wms服务加载</title>
+    <title>terrain</title>
     <script src="../3rd/CesiumUnminified/Cesium.js"></script>
     <link rel="stylesheet" type="text/css" href="../3rd/CesiumUnminified/Widgets/widgets.css">
     <style>
@@ -49,28 +49,19 @@
 				homeButton:true,//主页按钮，默认true
 				infoBox:false,//点击要素之后显示的信息,默认true
 				selectionIndicator:true,
-                imageryProvider: new Cesium.SingleTileImageryProvider({
-                    url:'./earth.jpg'
+                /*imageryProvider: new Cesium.SingleTileImageryProvider({
+                    url:'./globe.jpg'
+                }),*/
+                terrainProvider : new Cesium.CesiumTerrainProvider({
+	                url : 'https://assets.agi.com/stk-terrain/v1/tilesets/world/tiles'
                 }),
                 baseLayerPicker: false
 
 		});
 	//	widget = new Cesium.CesiumWidget('map');
 		viewer._cesiumWidget._creditContainer.style.display = 'none'; // 干掉水印
-		url='http://192.168.1.68:8080/hgis/ktw/wms'; //Geoserver URL
-		layers = viewer.scene.globe.imageryLayers;
-	//	layers.removeAll();
-		var blackMarble=layers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
-			url : url,
-			layers: 'ktw:jsgd',// Here just give layer n
-			version:'1.1.1',
-			parameters : {
-				transparent : true,
-				format : 'image/png'
-			}
-		}));
-		//blackMarble.alpha = 0.5;//给一个透明度
-		//blackMarble.brightness = 1.0;
+		viewer.scene.globe.enableLighting = true;
+
 		// Start off looking at china.
 		viewer.camera.setView({
 			destination: Cesium.Rectangle.fromDegrees(113.18492036287185,27.89077781613048,113.22275689694729,27.904124488188586)
